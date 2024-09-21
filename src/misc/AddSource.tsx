@@ -2,6 +2,7 @@ import * as M from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState } from "react";
+import { capitalizeFirst } from "../utils";
 import WeekdaySelector from "./WeekSelector";
 
 
@@ -9,6 +10,7 @@ export const RECUR_PERIODS = ["daily", "weekly", "monthly", "yearly"] as const;
 export type RecurPeriod = (typeof RECUR_PERIODS)[number];
 
 export const RECUR_TYPES = ["subscriptions", "bills", "income"] as const;
+export const RECUR_SINGULARS = ["subscription", "bill", "income source"] as const;
 export type RecurType = (typeof RECUR_TYPES)[number];
 
 export type RecurringSource = {
@@ -58,8 +60,8 @@ export default function AddSource(ps: {
         style: { width: "700px", padding: "10px", borderRadius: "20px" }, // Set the desired width here
       }}
     >
-      <M.DialogTitle className="pb-4 text-center">
-        Create Recurring Payment
+      <M.DialogTitle className="pb-4 text-center" fontSize={35}>
+        Create {capitalizeFirst(RECUR_SINGULARS[typeIdx])}
       </M.DialogTitle>
 
       <M.DialogContent className="flex flex-col items-center h-[70vh] rounded-2xl">
@@ -103,7 +105,7 @@ export default function AddSource(ps: {
             label="Repeat"
           >
             {RECUR_PERIODS.map((period) => (
-              <M.MenuItem value={period}>{period[0].toUpperCase() + period.substring(1)}</M.MenuItem>
+              <M.MenuItem value={period}>{capitalizeFirst(period)}</M.MenuItem>
             ))}
           </M.Select>
         </M.FormControl>
@@ -112,14 +114,14 @@ export default function AddSource(ps: {
         {
           period == "weekly" ? (
             <>
-              <M.Typography className="self-center">Select the day of the month</M.Typography>
+              <M.Typography className="self-center">Select the day of the week that the payment occurs</M.Typography>
               <div className="self-center">
                 <WeekdaySelector selected={day} onChange={setDay} />
               </div>
             </>
           ) : period == "monthly" ? (
             <>
-              <M.Typography>Select the day of the month</M.Typography>
+              <M.Typography>Select the day of the month that the payment occurs</M.Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar
                   onChange={(d) => setDay((d.$d as Date).getDate())} />
@@ -127,7 +129,7 @@ export default function AddSource(ps: {
             </>
           ) : period == "yearly" ? (
             <>
-              <M.Typography>Select the day of the year</M.Typography>
+              <M.Typography>Select the day of the year that the payment occurs</M.Typography>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DateCalendar onChange={(d) => setDay((d.$d as Date).getDate())} />
               </LocalizationProvider>

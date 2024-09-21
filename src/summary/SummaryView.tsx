@@ -7,6 +7,7 @@ import * as M from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
 import AddSource, { RecurringSource, RECUR_TYPES } from "../misc/AddSource";
+import { capitalizeFirst } from "../utils";
 import SummarySection from "./SummarySection";
 
 
@@ -26,7 +27,7 @@ export default function SummaryView(ps: {
   };
 
   const partition = RECUR_TYPES.map((type) => (
-    <SummarySection title={type[0].toUpperCase() + type.substring(1)}
+    <SummarySection title={capitalizeFirst(type)}
                     transactions={ps.recurring.filter((r) => r.type == type)}
                     expanded={expanded}
                     setExpanded={setExpanded} />

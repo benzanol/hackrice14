@@ -24,7 +24,6 @@ export default function SummarySection(ps: {
           key={t.name}
           elevation={3}
           onChange={() => {
-            console.log('blah', ((t == ps.expanded) ? null : t))
             ps.setExpanded((t == ps.expanded) ? null : t)
           }}
           expanded={t == ps.expanded}
@@ -40,9 +39,19 @@ export default function SummarySection(ps: {
           </M.AccordionSummary>
 
           <M.AccordionDetails className="leading-8">
-            <div> Type: {t.type} </div>
-            <div> Recurrence: {t.period} </div>
-            <div> Amount: ${t.amount} </div>
+            <M.Typography> Type: {t.type} </M.Typography>
+            <M.Typography> Recurrence: {t.period} </M.Typography>
+            <M.Typography> Amount: ${t.amount} </M.Typography>
+            {
+              t.period == "weekly" ? (
+                <M.Typography>
+                  Day of Payments:
+                  {["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"][t.day]}
+                </M.Typography>
+              ) : t.period == "monthly" ? (
+                <M.Typography>Day of Month: {t.day}</M.Typography>
+              ) : <></>
+            }
           </M.AccordionDetails>
         </M.Accordion>
       ))}
