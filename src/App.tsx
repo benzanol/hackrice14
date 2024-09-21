@@ -1,40 +1,48 @@
-import { useState } from 'react'
-import { Button } from '../node_modules/@mui/material/index'
-import './App.css'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import * as React from 'react';
+import { useState } from 'react';
+import * as M from "@mui/material";
+import './App.css';
+import SetupPage from './misc/SetupPage';
+import SummaryView from './summary/SummaryView';
+import AddSource, { RecurringSource } from './misc/AddSource';
+
+export const GlobalContext = React.createContext(null);
+type GlobalState = {};
 
 function App() {
-    const [count, setCount] = useState(0)
+  const [callback, setCallback] = useState<null | ((r: RecurringSource) => void)>(null);
+  console.log("ooh", callback)
 
-    return (
-        <>
-            <Button variant="contained">Hello world</Button>
-            <h1 className="text-3xl font-bold underline">
-                Hello world!
-            </h1>
-            <div>
-                <a href="https://vitejs.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo" />
-                </a>
-                <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo" />
-                </a>
-            </div>
-            <h1>Vite + React</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-                <p>
-                    Edit <code>src/App.tsx</code> and save to test HMR
-                </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
-    )
+  const cb = (v) => {
+    console.log("CALLEDBACK", v, callback)
+    if (v) setCallback(null)
+    console.log("k", v, callback)
+  };
+
+  return (
+    <GlobalContext.Provider value={{}}>
+      <div className="bg-red-500 w-[800px] p-20 text-left">
+
+        <AddSource callback={callback} />
+        <M.Button onClick={() => {
+                    console.log('ok clicked');
+                    setCallback(() => cb)
+                    console.log('cb added');
+                  }}>
+          ah
+        </M.Button>
+
+        <SetupPage />
+        <M.Button variant="contained">Hello world</M.Button>
+        <M.Typography variant="subtitle1" component="div">
+          Selected: hi
+        </M.Typography>
+        <br />
+        <SummaryView />
+      </div>
+
+    </GlobalContext.Provider>
+  )
 }
 
 export default App
