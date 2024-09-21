@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
-import * as M from "@mui/material";
 import './App.css';
-import SetupPage from './misc/SetupPage';
+import { RecurringSource } from './misc/AddSource';
 import SummaryView from './summary/SummaryView';
-import AddSource, { RecurringSource } from './misc/AddSource';
 
 export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
 
@@ -15,14 +13,16 @@ const subs: RecurringSource[] = [
 ];
 
 function App() {
-  const [callback, setCallback] = useState<null | ((r: RecurringSource) => void)>(null);
   const [recurring, setRecurring] = useState(subs)
   console.log('hi', recurring);
 
   return (
     <RecurringContext.Provider value={[recurring, setRecurring]}>
-      <div className="bg-gray-100 min-h-[100vh] w-[800px] p-20 text-left">
-        <SummaryView recurring={recurring} setRecurring={setRecurring} />
+      {/* This div exists soley for the plus button to position itself relative to */}
+      <div className="relative h-full w-[800px]">
+        <div className="bg-gray-100 h-full w-full p-20 text-left overflow-scroll">
+          <SummaryView recurring={recurring} setRecurring={setRecurring} />
+        </div>
       </div>
 
     </RecurringContext.Provider>

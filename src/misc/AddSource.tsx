@@ -1,17 +1,29 @@
 import * as M from "@mui/material";
+import { capitalize } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useState } from "react";
-import { capitalizeFirst } from "../utils";
 import WeekdaySelector from "./WeekSelector";
 
 
 export const RECUR_PERIODS = ["daily", "weekly", "monthly", "yearly"] as const;
 export type RecurPeriod = (typeof RECUR_PERIODS)[number];
 
-export const RECUR_TYPES = ["subscriptions", "bills", "income"] as const;
-export const RECUR_SINGULARS = ["subscription", "bill", "income source"] as const;
-export type RecurType = (typeof RECUR_TYPES)[number];
+export const RECUR_TYPES = {
+  subscriptions: {
+    singular: "Subscription",
+    color: "red",
+  },
+  bills: {
+    singular: "Recurring Bill",
+    color: "green",
+  },
+  income: {
+    singular: "Income Source",
+    color: "blue",
+  },
+} as const;
+export type RecurType = keyof typeof RECUR_TYPES;
 
 export type RecurringSource = {
   name: string,
@@ -39,14 +51,9 @@ export default function AddSource(ps: {
   const [period, setPeriod] = useState("monthly" as RecurPeriod);
   const [day, setDay] = useState(1);
 
-  console.log(typeIdx);
-
-  const date = new Date();
-  date.setDate(day);
-
   const onClose  = () => ps.callback({
     name,
-    type: RECUR_TYPES[typeIdx],
+    type: Object.keys(RECUR_TYPES)[typeIdx] as RecurType,
     amount: +amount,
     period,
     day,
@@ -61,12 +68,12 @@ export default function AddSource(ps: {
       }}
     >
       <M.DialogTitle className="pb-4 text-center" fontSize={35}>
-        Create {capitalizeFirst(RECUR_SINGULARS[typeIdx])}
+        Add {Object.values(RECUR_TYPES)[typeIdx].singular}
       </M.DialogTitle>
 
       <M.DialogContent className="flex flex-col items-center h-[70vh] rounded-2xl">
         <M.Tabs className="self-center" value={typeIdx} onChange={(_, idx) => setType(idx)}>
-          {RECUR_TYPES.map((type) => <M.Tab label={type} />)}
+          {Object.keys(RECUR_TYPES).map((type) => <M.Tab label={type} />)}
         </M.Tabs>
 
         <div className="h-8"></div>
@@ -105,7 +112,7 @@ export default function AddSource(ps: {
             label="Repeat"
           >
             {RECUR_PERIODS.map((period) => (
-              <M.MenuItem value={period}>{capitalizeFirst(period)}</M.MenuItem>
+              <M.MenuItem value={period}>{capitalize(period)}</M.MenuItem>
             ))}
           </M.Select>
         </M.FormControl>
@@ -141,7 +148,10 @@ export default function AddSource(ps: {
       </M.DialogContent>
 
       <M.DialogActions>
-        <M.Button className="self-end" variant="contained" onClick={onClose}>Submit</M.Button>
+        <M.Button className="self-end" variant="contained" onClick={onClose}
+                  disabled={name.length == 0}>
+          Submit
+        </M.Button>
       </M.DialogActions>
     </M.Dialog>
   );
