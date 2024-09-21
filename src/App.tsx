@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import * as M from "@mui/material";
 import './App.css';
-import SetupPage from './misc/SetupPage';
-import SummaryView from './summary/SummaryView';
 import AddSource, { RecurringSource } from './misc/AddSource';
-import SpendingView from './spendingGraph/SpendingView';
+import Navbar from './components/Navbar'
+import Hero from './components/Hero'
+
 
 export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
 
@@ -36,7 +35,7 @@ enum Tabs {
   Spending = "Spending",
 }
 
-function App() {
+/*function App() {
   const [callback, setCallback] = useState<null | ((r: RecurringSource) => void)>(null);
   const [recurring, setRecurring] = useState(subs)
   const [spending, setSpending] = useState(spendingData)
@@ -68,6 +67,15 @@ function App() {
     case Tabs.Spending:
       return spendingSection;
   }
+      */
+
+function App() {
+    return (
+        <div>
+            <Navbar />
+            <Hero />
+        </div>
+    );
 }
 
-export default App
+export default App;
