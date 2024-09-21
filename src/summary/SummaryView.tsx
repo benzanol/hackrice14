@@ -3,31 +3,41 @@
 // subscriptions
 // bills
 
+import * as M from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
-import { RecurringSource } from "../misc/AddSource";
+import AddSource, { RecurringSource, RECUR_TYPES } from "../misc/AddSource";
 import SummarySection from "./SummarySection";
 
-const subs: RecurringSource[] = [
-  {name: "Netflix", period: "monthly", day: 1, amount: 10},
-  {name: "Spotify", period: "monthly", day: 1, amount: 4},
-  {name: "NFL+", period: "monthly", day: 1, amount: 7},
-];
-const bills: RecurringSource[] = [
-  {name: "Rent", period: "monthly", day: 1, amount: 200},
-  {name: "Electricity", period: "monthly", day: 1, amount: 100},
-];
 
-
-export default function SummaryView(ps: {}) {
+export default function SummaryView(ps: {
+  recurring: RecurringSource[],
+  setRecurring: (r: RecurringSource[]) => void,
+}) {
   const [expanded, setExpanded] = useState(null as RecurringSource | null);
 
+  const [callback, setCallback] = useState<null | ((r: RecurringSource) => void)>(null);
+  const cb = (r: RecurringSource | null) => {
+    setCallback(null);
+    if (r != null) {
+      console.log('Setting', [...ps.recurring, r])
+      ps.setRecurring([...ps.recurring, r]);
+    }
+  };
+
+  const partition = RECUR_TYPES.map((type) => (
+    <SummarySection title={type[0].toUpperCase() + type.substring(1)}
+                    transactions={ps.recurring.filter((r) => r.type == type)}
+                    expanded={expanded}
+                    setExpanded={setExpanded} />
+  ));
+
   return (
-    <>
-      <SummarySection title="Subscriptions" transactions={subs}
-                      expanded={expanded} setExpanded={setExpanded} />
-      <SummarySection title="Bills" transactions={bills}
-                      expanded={expanded} setExpanded={setExpanded} />
-    </>
+    <div className="flex flex-col items-stretch">
+      <AddSource callback={callback} />
+      {partition}
+      <div className="h-10"></div>
+      <M.Button className="self-center" variant="contained" onClick={() => setCallback(() => cb)}>Add +</M.Button>
+    </div>
   );
 }

@@ -5,10 +5,15 @@ import { useState } from "react";
 import WeekdaySelector from "./WeekSelector";
 
 
-const RECUR_PERIODS = ["daily", "weekly", "monthly", "yearly"] as const;
+export const RECUR_PERIODS = ["daily", "weekly", "monthly", "yearly"] as const;
 export type RecurPeriod = (typeof RECUR_PERIODS)[number];
+
+export const RECUR_TYPES = ["subscriptions", "bills", "income"] as const;
+export type RecurType = (typeof RECUR_TYPES)[number];
+
 export type RecurringSource = {
   name: string,
+  type: RecurType,
   amount: number, // Negative = expense, positive = income
   period: RecurPeriod,
   day: number, // 1 indexed day of the period (1 = monday, 1st of month, Jan 1)
@@ -20,43 +25,52 @@ export type OnceSource = {
 };
 
 export default function AddSource(ps: {
-  callback?: (s: RecurringSource) => void,
+  callback?: (s: RecurringSource | null) => void,
+  initialType?: number,
 }) {
-  console.log('Creating a thing');
+  // This will clear the form on each close
   if (ps.callback == undefined) return <></>;
 
-  const [isExpense, setExpense] = useState(true);
+  const [typeIdx, setType] = useState(ps.initialType ?? 0);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("10");
   const [period, setPeriod] = useState("monthly" as RecurPeriod);
   const [day, setDay] = useState(1);
 
+  console.log(typeIdx);
+
   const date = new Date();
   date.setDate(day);
 
-  const onClose  = () => ps.callback({name, amount: +amount, period, day});
+  const onClose  = () => ps.callback({
+    name,
+    type: RECUR_TYPES[typeIdx],
+    amount: +amount,
+    period,
+    day,
+  });
 
   return (
     <M.Dialog
       open={Boolean(ps.callback)}
-      onClose={onClose}
+      onClose={() => ps.callback(null)}
       PaperProps={{
         style: { width: "700px", padding: "10px", borderRadius: "20px" }, // Set the desired width here
       }}
     >
       <M.DialogTitle className="pb-4 text-center">
-        <M.Typography variant="h4">Create Payment</M.Typography>
+        Create Recurring Payment
       </M.DialogTitle>
 
       <M.DialogContent className="flex flex-col items-center h-[70vh] rounded-2xl">
-        <M.Tabs className="self-center" value={isExpense ? 0 : 1} onChange={(_, idx) => setExpense(idx == 0)}>
-          <M.Tab label="Expense" />
-          <M.Tab label="Income" />
+        <M.Tabs className="self-center" value={typeIdx} onChange={(_, idx) => setType(idx)}>
+          {RECUR_TYPES.map((type) => <M.Tab label={type} />)}
         </M.Tabs>
 
         <div className="h-8"></div>
 
         <M.TextField
+          autoFocus
           className="w-2/3"
           variant="outlined"
           label="Name"
@@ -71,7 +85,7 @@ export default function AddSource(ps: {
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           InputProps={{
-            startAdornment: <M.InputAdornment position="start">{isExpense ? "– $" : "+ $"}</M.InputAdornment>,
+            startAdornment: <M.InputAdornment position="start">{RECUR_TYPES[typeIdx] != "income" ? "– $" : "+ $"}</M.InputAdornment>,
             inputMode: 'decimal', // Helps with mobile keyboards to show the numeric keypad
           }}
         />

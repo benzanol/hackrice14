@@ -1,6 +1,8 @@
 import { ExpandMore } from "@mui/icons-material";
 import * as M from "@mui/material";
-import { RecurringSource } from "../misc/AddSource";
+import { useContext, useState } from "react";
+import { RecurringContext } from "../App";
+import AddSource, { RecurringSource } from "../misc/AddSource";
 
 
 function weeklyPrice(t: RecurringSource): string {
@@ -19,6 +21,7 @@ export default function SummarySection(ps: {
       <M.Typography variant="h5" className="py-3">{ps.title}</M.Typography>
       {ps.transactions.map((t) => (
         <M.Accordion
+          key={t.name}
           elevation={3}
           onChange={() => {
             console.log('blah', ((t == ps.expanded) ? null : t))
@@ -36,8 +39,10 @@ export default function SummarySection(ps: {
             </div>
           </M.AccordionSummary>
 
-          <M.AccordionDetails>
-            More info
+          <M.AccordionDetails className="leading-8">
+            <div> Type: {t.type} </div>
+            <div> Recurrence: {t.period} </div>
+            <div> Amount: ${t.amount} </div>
           </M.AccordionDetails>
         </M.Accordion>
       ))}
