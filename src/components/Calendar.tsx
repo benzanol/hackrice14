@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { RecurringSource } from '../misc/AddSource';
+import { RecurringContext } from '../App';
 
 interface CalendarProps {
-  recurringEvents: RecurringSource[];
 }
 
-const Calendar: React.FC<CalendarProps> = ({ recurringEvents }) => {
+const Calendar: React.FC<CalendarProps> = () => {
+  const [recurringEvents, _] = useContext(RecurringContext);
+
   const generateRecurringEvents = (event: RecurringSource) => {
     const events = [];
     const now = new Date();
@@ -29,10 +31,10 @@ const Calendar: React.FC<CalendarProps> = ({ recurringEvents }) => {
         events.push(createEvent(event, eventDate));
       } else if (event.period === 'yearly') {
 
-        if (currentMonth + i === event.month - 1) {
-          eventDate = new Date(currentYear, event.month - 1, event.day);
-          events.push(createEvent(event, eventDate));
-        }
+        //if (currentMonth + i === eventDate.month - 1) {
+        //  eventDate = new Date(currentYear, eventDate.month - 1, event.day);
+        //  events.push(createEvent(event, eventDate));
+        //}
       }
     }
 
@@ -51,26 +53,25 @@ const Calendar: React.FC<CalendarProps> = ({ recurringEvents }) => {
       case 'subscriptions':
         return '#2196F3'; // Blue
       case 'bills':
-        return '#F32121'; // Red
+        return '#d32121'; // Red
       case 'income':
-        return '#21F321'; // Green
+        return '#21b321'; // Green
       default:
-        return '#21F321'; // Green
+        return '#21b321'; // Green
     }
   };
 
   const allEvents = recurringEvents.flatMap(generateRecurringEvents);
 
   return (
-    <div className="h-full w-full max-w-6xl mx-auto p-4 box-border">
+    <div className="max-w-6xl h-full mx-auto">
       <div className="h-full w-full">
-        <FullCalendar 
-          plugins={[dayGridPlugin]} 
+        <FullCalendar
+          plugins={[dayGridPlugin]}
           initialView="dayGridMonth"
           events={allEvents}
           height="auto"
           aspectRatio={1.35}
-          className="h-full w-full"
         />
       </div>
     </div>

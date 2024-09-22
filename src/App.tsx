@@ -2,16 +2,24 @@ import * as React from 'react';
 import { useState } from 'react';
 import './App.css';
 
-import { RecurringSource, Transaction } from './misc/AddSource';
-import { SpendingBarData } from './spendingGraph/SpendingView';
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import Sidebar from './Sidebar';
+import {
+  createBrowserRouter, RouterProvider
+} from "react-router-dom";
 import Calendar from './components/Calendar';
+import Hero from './components/Hero';
+import Navbar from './components/Navbar';
+import './index.css';
+import Launcher from './launcher/Launcher';
+import { RecurringSource, Transaction } from './misc/AddSource';
+import Sidebar from './Sidebar';
+import SpendingView, { SpendingBarData, transactionToSpending } from './spendingGraph/SpendingView';
+import SummaryView from './summary/SummaryView';
+import Transactions from './transactions/Transactions';
+import { getLastMonthsTransactions } from './utils';
+import BudgetPage from './budget/BudgetPage';
 
-export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
 
-export const subs: RecurringSource[] = [
+const initialRecurringTransactions: RecurringSource[] = [
   {name: "Netflix", type: "subscriptions", period: "monthly", day: 1, amount: 10},
   {name: "Spotify", type: "subscriptions", period: "monthly", day: 5, amount: 4},
   {name: "NFL+",    type: "subscriptions", period: "monthly", day: 15, amount: 7},
@@ -19,7 +27,7 @@ export const subs: RecurringSource[] = [
   {name: "Internships",    type: "income", period: "weekly", day: 3, amount: 7},
 ];
 
-const spendingData: Array<SpendingBarData> = [
+const spendingData: SpendingBarData[] = [
   { name: 'Jan', spending: 60.0 },
   { name: 'Feb', spending: 59.0 },
   { name: 'Mar', spending: 110.0 },
@@ -44,13 +52,63 @@ const transactionData: Transaction[] = [
   {name: "Ladle", amount: 10.56, date: new Date("2024-06-20"), vendor: "Valve"}
 ];
 
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Launcher />,
+  },
+  {
+    path: '/dashboard',
+    element: <Sidebar />,
+    children: [
+      {
+        path: '/dashboard/transactions',
+        element: <Transactions transactions={JSON.parse(localStorage.getItem("transactions")  || "[]")} />,
+      },
+      {
+        path: '/dashboard/main',
+        element: <SummaryView />,
+      },
+      {
+        path: '/dashboard/spending',
+        element: <SpendingView
+                   spending={
+                     transactionToSpending(
+                       getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions" || "[]")), 6),
+                       6,
+                       parseFloat(localStorage.getItem("goal")),
+                       parseFloat(localStorage.getItem("income")),
+                     )
+                   }
+                   subgoal={parseFloat(localStorage.getItem("goal"))}
+                   income={parseFloat(localStorage.getItem("income"))}
+                 />,
+      },
+      {
+        path: '/dashboard/budgeting',
+        element: <BudgetPage />,
+      },
+      {
+        path: '/dashboard/calendar',
+        element: <Calendar />,
+      },
+    ]
+  },
+]);
+
+
+export type GetSet<T> = [T, (e: T) => void]
+export const RecurringContext = React.createContext<GetSet<RecurringSource[]>>(null);
+
 function App() {
-    return (
-        <div>
-            <Navbar />
-            <Hero />
-        </div>
-    );
+  const [recurring, setRecurring] = useState(initialRecurringTransactions);
+
+  return (
+    <RecurringContext.Provider value={[recurring, setRecurring]}>
+      <RouterProvider router={router} />
+    </RecurringContext.Provider>
+  );
 }
 
 export default App;

@@ -2,6 +2,7 @@ import { ExpandMore } from "@mui/icons-material";
 import * as Icons from "@mui/icons-material";
 import * as M from "@mui/material";
 import { RecurringSource } from "../misc/AddSource";
+import { dollarString } from "../utils";
 
 
 export default function SummarySection(ps: {
@@ -25,6 +26,8 @@ export default function SummarySection(ps: {
         >
           <M.AccordionSummary expandIcon={ <ExpandMore /> }>
             <div className="flex justify-between w-full">
+
+              {/* Left aligned items */}
               <div className="flex flex-row items-center">
                 <M.Typography fontWeight="bold">{t.name}</M.Typography>
 
@@ -51,10 +54,11 @@ export default function SummarySection(ps: {
                     </M.IconButton>
                   </>
                 )}
-            </div>
+              </div>
 
+            {/* Right aligned items */}
             <div className="flex pr-5">
-              <SummaryItemProperty value={"$" + t.amount.toFixed(2) + " " + t.period} />
+              <SummaryItemProperty value={dollarString(t.amount) + " " + t.period} />
             </div>
           </div>
         </M.AccordionSummary>
@@ -62,7 +66,7 @@ export default function SummarySection(ps: {
         <M.AccordionDetails className="leading-8">
           <M.Typography> Type: {t.type} </M.Typography>
           <M.Typography> Recurrence: {t.period} </M.Typography>
-          <M.Typography> Amount: ${t.amount} </M.Typography>
+          <M.Typography> Amount: {dollarString(t.amount)} </M.Typography>
           {
             t.period == "weekly" ? (
               <M.Typography>

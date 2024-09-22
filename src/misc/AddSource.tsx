@@ -10,17 +10,20 @@ export const RECUR_PERIODS = ["daily", "weekly", "monthly", "yearly"] as const;
 export type RecurPeriod = (typeof RECUR_PERIODS)[number];
 
 export const RECUR_TYPES = {
-  subscriptions: {
-    singular: "Subscription",
-    color: "red",
+  income: {
+    singular: "Income Source",
+    color: "#44bb44",
+    income: true,
   },
   bills: {
     singular: "Recurring Bill",
-    color: "green",
+    color: "#bb0000",
+    income: false,
   },
-  income: {
-    singular: "Income Source",
-    color: "blue",
+  subscriptions: {
+    singular: "Subscription",
+    color: "#4466bb",
+    income: false,
   },
 } as const;
 export type RecurType = keyof typeof RECUR_TYPES;
@@ -37,9 +40,8 @@ export type Transaction = {
   name: string,
   amount: number,
   date: Date,
-  vendor: string, 
+  vendor: string,
 };
-
 
 export default function AddSource(ps: {
   callback?: (s: RecurringSource | null) => void,
@@ -70,7 +72,7 @@ export default function AddSource(ps: {
         style: { width: "700px", padding: "10px", borderRadius: "20px" }, // Set the desired width here
       }}
     >
-      <M.DialogTitle className="pb-4 text-center" fontSize={35}>
+      <M.DialogTitle className="pb-4 text-center" fontSize={35} marginTop="15px">
         Add {Object.values(RECUR_TYPES)[typeIdx].singular}
       </M.DialogTitle>
 
@@ -97,7 +99,11 @@ export default function AddSource(ps: {
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           InputProps={{
-            startAdornment: <M.InputAdornment position="start">{RECUR_TYPES[typeIdx] != "income" ? "– $" : "+ $"}</M.InputAdornment>,
+            startAdornment: (
+              <M.InputAdornment position="start">
+                {Object.values(RECUR_TYPES)[typeIdx].income ? "+ $" : "– $"}
+              </M.InputAdornment>
+            ),
             inputMode: 'decimal', // Helps with mobile keyboards to show the numeric keypad
           }}
         />

@@ -49,8 +49,6 @@ const Navigation = ({
   selectedProject,
   setSelectedProject,
 }: NavProps) => {
-  const [recurringEvents, setRecurringEvents] = useState<RecurringSource[subs]>([]);
-
   const navigationControls = useAnimationControls();
   useEffect(() => {
     if (isOpen) {
@@ -97,22 +95,22 @@ const Navigation = ({
           </motion.button>
         </div>
         <div className="flex flex-col gap-4">
-          <NavigationLink name="Main" to="/dashboard/main" isOpen={isOpen}>
+          <NavigationLink name="Main" to="/dashboard/main">
             <CurrencyDollarIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Transactions" to="/dashboard/transactions" isOpen={isOpen}>
+          <NavigationLink name="Transactions" to="/dashboard/transactions">
             <ArrowsRightLeftIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Calendar" to="/dashboard/calendar" isOpen={isOpen}>
+          <NavigationLink name="Calendar" to="/dashboard/calendar">
             <CalendarIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Analysis" to="/dashboard/analysis" isOpen={isOpen}>
+          <NavigationLink name="Analysis" to="/dashboard/analysis">
             <ChartPieIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Budgeting" to="/dashboard/budgeting" isOpen={isOpen}>
+          <NavigationLink name="Budgeting" to="/dashboard/budgeting">
             <WalletIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Settings" to="/dashboard/settings" isOpen={isOpen}>
+          <NavigationLink name="Settings" to="/dashboard/settings">
             <Cog6ToothIcon className="w-6 h-6" />
           </NavigationLink>
         </div>
