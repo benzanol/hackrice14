@@ -3,6 +3,7 @@ import * as M from "@mui/material";
 import { Transaction } from "../misc/AddSource";
 import { ListItem, ListItemText } from "@mui/material";
 import { List } from "@mui/material";
+import { Linker } from "../components/Linker";
 
 
 
@@ -20,6 +21,7 @@ const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
             <M.Typography variant="h4" gutterBottom>
                 Transactions
             </M.Typography>
+            <Linker />
             <div>
                 <M.Box display="flex" justifyContent="flex-end" mb={2}></M.Box>
                 <M.FormControl variant="outlined" size="small">

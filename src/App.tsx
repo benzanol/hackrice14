@@ -7,7 +7,7 @@ import { SpendingBarData } from './spendingGraph/SpendingView';
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Sidebar from './Sidebar';
-
+import Linker from './components/Linker'
 
 export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
 
