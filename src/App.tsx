@@ -20,11 +20,10 @@ import BudgetPage from './budget/BudgetPage';
 
 const initialRecurringTransactions: RecurringSource[] = [
   {name: "Netflix", type: "subscriptions", period: "monthly", day: 1, amount: 10},
-  {name: "Spotify", type: "subscriptions", period: "monthly", day: 5, amount: 4},
-  {name: "NFL+",    type: "subscriptions", period: "monthly", day: 15, amount: 7},
-  {name: "HEB",    type: "bills", period: "monthly", day: 12, amount: 7},
-  {name: "Internships",    type: "income", period: "weekly", day: 3, amount: 7},
+  {name: "Spotify", type: "subscriptions", period: "yearly", day: 5, amount: 72},
 ];
+
+
 
 const transactionData: Transaction[] = [
 ];
