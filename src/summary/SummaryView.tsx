@@ -7,8 +7,8 @@ import * as Icons from "@mui/icons-material";
 import * as M from "@mui/material";
 import { capitalize } from "@mui/material";
 import { useState } from "react";
-import AddSource, { RecurringSource } from "../misc/AddSource";
-import { partitionRecurring } from "../utils";
+import AddSource, { RecurringSource, RECUR_TYPES } from "../misc/AddSource";
+import { dollarsPerMonth, dollarString, partitionRecurring } from "../utils";
 import SummarySection from "./SummarySection";
 
 
@@ -22,7 +22,6 @@ export default function SummaryView(ps: {
   const cb = (r: RecurringSource | null) => {
     setCallback(null);
     if (r != null) {
-      console.log('Setting', [...ps.recurring, r])
       ps.setRecurring([...ps.recurring, r]);
     }
   };
@@ -33,7 +32,20 @@ export default function SummaryView(ps: {
       {
         Object.entries(partitionRecurring(ps.recurring)).map(([type, transactions]) => (
           <div key={type}>
-            <M.Typography variant="h5" className="py-3">{capitalize(type)}</M.Typography>
+
+            <div className="flex flex-row items-center justify-between">
+              <M.Typography variant="h5" className="pb-4 pt-6">{capitalize(type)}</M.Typography>
+
+              <div className="flex">
+                <M.Typography fontSize={18}>{RECUR_TYPES[type].income ? "+" : "–"}</M.Typography>
+                <M.Typography fontSize={18}>
+                  {dollarString(transactions.map(dollarsPerMonth).reduce((a,b) => a+b, 0))}
+                </M.Typography>
+                <div className="w-1" />
+                <M.Typography fontSize={18}>monthly</M.Typography>
+              </div>
+            </div>
+
             <SummarySection recurring={transactions}
                             updateRecurring={() => ps.setRecurring([...ps.recurring])}
                             removeRecurring={r => ps.setRecurring(ps.recurring.filter(e => r != e))}
