@@ -1,10 +1,11 @@
-import React from 'react'
-
+import * as React from 'react';
 import { useEffect, useState } from "react";
 import Navigation from "./components/Navigation";
 import Backdrop from "./components/Backdrop";
 import Dashboard from "./components/Dashboard";
 import { motion } from "framer-motion";
+import Transactions from './transactions/Transactions';
+import { Outlet } from 'react-router-dom';
 
 function Sidebar() {
 
@@ -45,7 +46,9 @@ function Sidebar() {
           selectedProject={selectedProject}
           setSelectedProject={setSelectedProject}
         />
-        <Dashboard />
+        <div className="flex flex-col gap-5 ml-20 p-10 w-full z-0">
+          <Outlet />
+        </div>
       </motion.main>
     </>
   );

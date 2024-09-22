@@ -92,19 +92,19 @@ const Navigation = ({
           </motion.button>
         </div>
         <div className="flex flex-col gap-4">
-          <NavigationLink name="Transactions" to="/transactions" isOpen={isOpen}>
+          <NavigationLink name="Transactions" to="/dashboard/transactions" isOpen={isOpen}>
             <CurrencyDollarIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Calendar" to="/calendar" isOpen={isOpen}>
+          <NavigationLink name="Calendar" to="/dashbaord/calendar" isOpen={isOpen}>
             <CalendarIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Analysis" to="/analysis" isOpen={isOpen}>
+          <NavigationLink name="Analysis" to="/dashboard/analysis" isOpen={isOpen}>
             <ChartPieIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Budgeting" to="/budgeting" isOpen={isOpen}>
+          <NavigationLink name="Budgeting" to="/dashboard/budgeting" isOpen={isOpen}>
             <WalletIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Settings" to="/settings" isOpen={isOpen}>
+          <NavigationLink name="Settings" to="/dashboard/settings" isOpen={isOpen}>
             <Cog6ToothIcon className="w-6 h-6" />
           </NavigationLink>
         </div>

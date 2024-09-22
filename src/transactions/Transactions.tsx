@@ -11,6 +11,7 @@ interface TransactionsProps {
 }
 
 const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
+    
     // Sort transactions by date
     const [transactionState, setTransactions] = React.useState(transactions);
 

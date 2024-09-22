@@ -7,6 +7,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Transactions from './transactions/Transactions.tsx'
+import SummaryView from './summary/SummaryView.tsx'
+import { RecurringSource } from './misc/AddSource.tsx'
 
 const router = createBrowserRouter([
   {
@@ -16,7 +19,20 @@ const router = createBrowserRouter([
   {
     path: '/dashboard',
     element: <Sidebar />,
+    children: [
+      {
+        path: '/dashboard/transactions',
+        element: <Transactions transactions={[]} />,
+      },
+      {
+        path: '/dashboard/summary',
+        element: <SummaryView recurring={[]} setRecurring={function (r: RecurringSource[]): void {
+          throw new Error('Function not implemented.')
+        } } />,
+      }
+    ]
   },
+
 ]);
 
 

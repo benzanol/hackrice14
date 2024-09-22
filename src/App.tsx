@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
 import './App.css';
-import SummaryView from './summary/SummaryView';
-import AddSource, { RecurringSource, Transaction } from './misc/AddSource';
-import SpendingView, { SpendingBarData, transactionToSpending } from './spendingGraph/SpendingView';
-import { getLastMonthsTransactions } from './utils';
-import Transactions from './transactions/Transactions';
+
+import { RecurringSource, Transaction } from './misc/AddSource';
+import { SpendingBarData } from './spendingGraph/SpendingView';
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import Sidebar from './Sidebar';
 
 
 export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
@@ -45,13 +44,6 @@ const transactionData: Transaction[] = [
 
 ];
 
-
-enum Tabs {
-  Summary = "Summary", 
-  AddSource = "AddSource",
-  Spending = "Spending",
-  Transactions = "Transactions",
-}
 
 function App() {
     return (
