@@ -1,35 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { usePlaidLink } from "react-plaid-link";
-import Button from '@mui/material/Button';                
-import CircularProgress from '@mui/material/CircularProgress';
-import Modal from '@mui/material/Modal';                 
-import Box from '@mui/material/Box';                     
+import Button from '@mui/material/Button';
 
 axios.defaults.baseURL = "http://localhost:8000";
 
-// Define a style for the modal content
-const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
 function PlaidAuth({ publicToken }) {
-    const [account, setAccount] = useState();
+    const [balance, setBalance] = useState(null);
 
     useEffect(() => {
         async function fetchData() {
             try {
                 let accessToken = await axios.post("/exchange_public_token", { public_token: publicToken });
                 const auth = await axios.post("/auth", { access_token: accessToken.data.accessToken });
-                setAccount(auth.data.numbers.ach[0]);
+                const availableBalance = auth.data.accounts.find(account => account.balances.available !== null)?.balances.available;
+                setBalance(availableBalance);
             } catch (error) {
                 console.error('Error fetching account data:', error);
             }
@@ -37,18 +22,14 @@ function PlaidAuth({ publicToken }) {
         fetchData();
     }, [publicToken]);
 
-    return account && (
-        <>
-            <p>Account number: {account.account}</p>
-            <p>Routing number: {account.routing}</p>
-        </>
+    return balance !== null && (
+        <p>Available balance: ${balance.toFixed(2)}</p>
     );
 }
 
 function Linker() {
     const [linkToken, setLinkToken] = useState();
     const [publicToken, setPublicToken] = useState();
-    const [openModal, setOpenModal] = useState(false);  // State to manage modal visibility
 
     useEffect(() => {
         async function fetch() {
@@ -67,43 +48,26 @@ function Linker() {
         onSuccess: (public_token, metadata) => {
             setPublicToken(public_token);
             console.log("success", public_token, metadata);
-            setOpenModal(false); // Close modal on success
         },
     });
 
     return (
         <>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => setOpenModal(true)}
-            >
-                Connect a bank account
-            </Button>
-
-            <Modal
-                open={openModal}
-                onClose={() => setOpenModal(false)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={modalStyle}>
-                    {!publicToken ? (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => open()}
-                            disabled={!ready}
-                        >
-                            Connect a bank account
-                        </Button>
-                    ) : (
-                        <PlaidAuth publicToken={publicToken} />
-                    )}
-                </Box>
-            </Modal>
+            {!publicToken ? (
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => open()}
+                    disabled={!ready}
+                >
+                    Connect a bank account
+                </Button>
+            ) : (
+                <PlaidAuth publicToken={publicToken} />
+            )}
         </>
     );
 }
 
 export default Linker;
+
