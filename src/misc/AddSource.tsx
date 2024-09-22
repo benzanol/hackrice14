@@ -33,10 +33,13 @@ export type RecurringSource = {
   day: number, // 1 indexed day of the period (1 = monday, 1st of month, Jan 1)
 };
 
-export type OnceSource = {
+export type Transaction = {
   name: string,
   amount: number,
+  date: Date,
+  vendor: string, 
 };
+
 
 export default function AddSource(ps: {
   callback?: (s: RecurringSource | null) => void,

@@ -1,4 +1,4 @@
-import { RecurringSource, RECUR_TYPES } from "./misc/AddSource";
+import { RecurringSource, RECUR_TYPES, Transaction } from "./misc/AddSource";
 
 export function dollarsPerMonth(r: RecurringSource): number {
     switch (r.period) {
@@ -12,6 +12,31 @@ export function dollarsPerMonth(r: RecurringSource): number {
 export function dollarsPerWeek(r: RecurringSource): number {
     return dollarsPerMonth(r) * (7 / 30);
 }
+
+export function getLastMonthsTransactions(o: Transaction[], n: number): Transaction[] {
+    let currentDate: Date = new Date();
+    let currentMonth: number = currentDate.getMonth();
+    let sixMonthsAgo: Date = new Date(currentDate);
+    sixMonthsAgo.setMonth(currentMonth - n);
+    return o.filter(t => t.date >= sixMonthsAgo && t.date <= currentDate);
+}
+
+export function previousSixTransaction(o: Transaction[]): {[month: string]: number}  {
+    // Filter the last 6 months of transactions, getting months from the previous year if necessary
+    var filteredTransactions: Transaction[] = getLastMonthsTransactions(o, 6);
+    // Create a dictionary of the form {month: amount}
+    var monthDict: {[month: string]: number} = {};
+    for (var i = 0; i < 6; i++) {
+        monthDict[filteredTransactions[i].date.toLocaleString('default', { month: 'long' })] = 0;
+    }
+    // Sum the amount of each transaction for each month
+    for (var i = 0; i < 6; i++) {
+        monthDict[filteredTransactions[i].date.toLocaleString('default', { month: 'long' })] += filteredTransactions[i].amount;
+    }
+    // Return an array of the amounts
+    return monthDict;
+}
+
 
 
 export function partitionRecurring(rs: RecurringSource[]): {[t: string]: RecurringSource[]} {
