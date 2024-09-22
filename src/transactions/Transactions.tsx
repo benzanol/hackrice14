@@ -31,16 +31,17 @@ const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
                             const value = e.target.value;
                             switch (value) {
                                 case "dateRTO":
-                                    setTransactions(transactionState.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
-                                    break;
-                                case "amountLTH":
-                                    setTransactions(transactionState.sort((a, b) => a.amount - b.amount));
-                                    break;
-                                case "amountHTL":
-                                    setTransactions(transactionState.sort((a, b) => b.amount - a.amount));
+                                    setTransactions([...transactionState.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())] );
                                     break;
                                 case "dateOTR":
-                                    setTransactions(transactionState.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+                                    
+                                    setTransactions([...transactionState.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())]);
+                                    break;
+                                case "amountLTH":
+                                    setTransactions([...transactionState.sort((a, b) => a.amount - b.amount)]);
+                                    break;
+                                case "amountHTL":
+                                    setTransactions([...transactionState.sort((a, b) => b.amount - a.amount)]);
                                     break;
                             }
 
