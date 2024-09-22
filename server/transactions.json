@@ -1,54 +1,106 @@
 {
-"elements": [
+
+[
   {
-    "amount": 85.5,
-    "name": "Amazon",
+    "amount": 75.25,
+    "name": "Whole Foods",
     "date": "2024-09-26"
   },
   {
-    "amount": 72.1,
-    "name": "Walmart",
-    "date": "2024-09-24"
-  },
-  {
-    "amount": 50.0,
-    "name": "Starbucks",
-    "date": "2024-09-23"
-  },
-  {
-    "amount": 120.0,
-    "name": "Target",
-    "date": "2024-09-22"
-  },
-  {
-    "amount": 35.75,
-    "name": "Subway",
-    "date": "2024-09-21"
-  },
-  {
-    "amount": 60.2,
-    "name": "Costco",
-    "date": "2024-09-20"
-  },
-  {
-    "amount": 92.8,
-    "name": "Best Buy",
-    "date": "2024-09-19"
-  },
-  {
-    "amount": 15.0,
-    "name": "McDonald's",
+    "amount": 43.10,
+    "name": "Sephora",
     "date": "2024-09-18"
   },
   {
-    "amount": 130.99,
+    "amount": 189.50,
     "name": "Apple Store",
-    "date": "2024-09-17"
+    "date": "2024-09-10"
   },
   {
-    "amount": 25.5,
-    "name": "Walgreens",
-    "date": "2024-09-16"
+    "amount": 22.00,
+    "name": "Dunkin' Donuts",
+    "date": "2024-09-02"
+  },
+  {
+    "amount": 99.90,
+    "name": "Best Buy",
+    "date": "2024-08-25"
+  },
+  {
+    "amount": 150.45,
+    "name": "Nike Store",
+    "date": "2024-08-16"
+  },
+  {
+    "amount": 16.50,
+    "name": "7-Eleven",
+    "date": "2024-08-07"
+  },
+  {
+    "amount": 130.99,
+    "name": "Home Depot",
+    "date": "2024-07-30"
+  },
+  {
+    "amount": 85.60,
+    "name": "Trader Joe's",
+    "date": "2024-07-21"
+  },
+  {
+    "amount": 55.25,
+    "name": "PetSmart",
+    "date": "2024-07-13"
+  },
+  {
+    "amount": 200.00,
+    "name": "REI",
+    "date": "2024-07-04"
+  },
+  {
+    "amount": 110.75,
+    "name": "Nordstrom",
+    "date": "2024-06-25"
+  },
+  {
+    "amount": 45.20,
+    "name": "CVS Pharmacy",
+    "date": "2024-06-15"
+  },
+  {
+    "amount": 250.00,
+    "name": "IKEA",
+    "date": "2024-06-05"
+  },
+  {
+    "amount": 78.35,
+    "name": "Panera Bread",
+    "date": "2024-05-27"
+  },
+  {
+    "amount": 33.00,
+    "name": "Chipotle",
+    "date": "2024-05-18"
+  },
+  {
+    "amount": 122.45,
+    "name": "Costco",
+    "date": "2024-05-08"
+  },
+  {
+    "amount": 10.99,
+    "name": "Baskin-Robbins",
+    "date": "2024-04-28"
+  },
+  {
+    "amount": 175.50,
+    "name": "Lowe's",
+    "date": "2024-04-18"
+  },
+  {
+    "amount": 66.80,
+    "name": "GameStop",
+    "date": "2024-04-08"
   }
 ]
+
 }
