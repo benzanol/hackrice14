@@ -36,9 +36,9 @@ export default function SummarySection(ps: {
                     <div className="w-2" />
                     <M.IconButton
                       onClick={() => {
-                        const newName = prompt(`Rename ${t.name} to:`)
-                        if (newName) {
-                          t.name = newName;
+                        const newAmount = +prompt(`New amount:`)
+                        if (newAmount != null && isFinite(newAmount)) {
+                          t.amount = newAmount;
                           ps.updateRecurring();
                         }
                       }}>

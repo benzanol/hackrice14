@@ -15,7 +15,6 @@ import Sidebar from './Sidebar';
 import SpendingView, { SpendingBarData, transactionToSpending } from './spendingGraph/SpendingView';
 import SummaryView from './summary/SummaryView';
 import Transactions from './transactions/Transactions';
-import { getLastMonthsTransactions } from './utils';
 import BudgetPage from './budget/BudgetPage';
 
 
@@ -43,15 +42,19 @@ const spendingData: SpendingBarData[] = [
 ];
 
 const transactionData: Transaction[] = [
-  {name: "HEB", amount: 10.43, date: new Date("2024-09-20"), vendor: "HEB"},
-  {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
-  {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
-  {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
+  {name: "HEB", amount: 10.43, date: new Date("2024-06-20"), vendor: "HEB"},
+  {name: "Velvet Tacos", amount: 11.43, date: new Date("2024-06-21"), vendor: "Velvet Tacos"},
+  {name: "Ramen", amount: 20.33, date: new Date("2024-06-24"), vendor: "Maruchan"},
+  {name: "Cough Drops", amount: 15.24, date: new Date("2024-09-21"), vendor: "CVS"},
+  {name: "Apple Watch SE (2nd Gen)", amount: 299.56, date: new Date("2024-08-19"), vendor: "Apple"},
+  {name: "JBL Xtreme 2", amount: 126.70, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
   {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
   {name: "Steam Deck", amount: 592.60, date: new Date("2024-04-20"), vendor: "Valve"},
-  {name: "Ladle", amount: 10.56, date: new Date("2024-06-20"), vendor: "Valve"}
+  {name: "Ladle", amount: 10.56, date: new Date("2024-06-20"), vendor: "Valve"},
+  {name: "Instax Mini 12", amount: 77.24, date: new Date("2024-04-2"), vendor: "Fujifilm"},
+  {name: "Dell Curved Monitor", amount: 177.24, date: new Date("2024-07-2"), vendor: "Fujifilm"},
+  {name: "WH-1000XM5", amount: 349.99, date: new Date("2024-05-30"), vendor: "Sony"},
 ];
-
 
 const router = createBrowserRouter([
   {
@@ -64,26 +67,33 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/dashboard/transactions',
-        element: <Transactions transactions={JSON.parse(localStorage.getItem("transactions")  || "[]")} />,
+        element: (
+          <div className="flex h-full">
+            <div className="grow p-10">
+              <SpendingView />
+            </div>
+            <div className="grow h-full overflow-scroll p-10 bg-gray-100 min-w-[600px]">
+              <Transactions transactions={JSON.parse(localStorage.getItem("transactions")  || "[]")} />
+            </div>
+          </div>
+        ),
       },
       {
         path: '/dashboard/main',
-        element: <SummaryView />,
+        element: (
+          <div className="flex h-full">
+            <div className="grow p-10">
+              <SummaryView />
+            </div>
+            <div className="grow h-full overflow-scroll p-10 bg-gray-100 min-w-[600px]">
+              <BudgetPage />
+            </div>
+          </div>
+        ),
       },
       {
         path: '/dashboard/spending',
-        element: <SpendingView
-                   spending={
-                     transactionToSpending(
-                       getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions" || "[]")), 6),
-                       6,
-                       parseFloat(localStorage.getItem("goal")),
-                       parseFloat(localStorage.getItem("income")),
-                     )
-                   }
-                   subgoal={parseFloat(localStorage.getItem("goal"))}
-                   income={parseFloat(localStorage.getItem("income"))}
-                 />,
+        element: <SpendingView />,
       },
       {
         path: '/dashboard/budgeting',
@@ -99,16 +109,20 @@ const router = createBrowserRouter([
 
 
 export type GetSet<T> = [T, (e: T) => void]
-export const RecurringContext = React.createContext<GetSet<RecurringSource[]>>(null);
+                    export const RecurringContext = React.createContext<GetSet<RecurringSource[]>>(null);
 
-function App() {
-  const [recurring, setRecurring] = useState(initialRecurringTransactions);
+                    function App() {
+                      const [recurring, setRecurring] = useState(initialRecurringTransactions);
 
-  return (
-    <RecurringContext.Provider value={[recurring, setRecurring]}>
-      <RouterProvider router={router} />
-    </RecurringContext.Provider>
-  );
-}
+                      if (!localStorage.getItem("transactions")) {
+                        localStorage.setItem("transactions", JSON.stringify(transactionData));
+                      }
 
-export default App;
+                      return (
+                        <RecurringContext.Provider value={[recurring, setRecurring]}>
+                          <RouterProvider router={router} />
+                        </RecurringContext.Provider>
+                      );
+                    }
+
+                    export default App;

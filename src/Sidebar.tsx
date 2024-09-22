@@ -46,7 +46,7 @@ function Sidebar() {
           selectedProject={selectedProject}
           setSelectedProject={setSelectedProject}
         />
-        <div className="flex flex-col gap-5 ml-20 p-10 w-full z-0">
+        <div className="flex flex-col gap-5 ml-20 w-full z-0">
           <Outlet />
         </div>
       </motion.main>

@@ -1,14 +1,14 @@
 import * as M from "@mui/material";
 import * as React from "react";
 import { useState } from "react";
+import { getLastMonthsTransactions } from '../utils';
 
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
-import { Transaction } from "../misc/AddSource";
+import { RecurringContext } from "../App";
+import { RECUR_TYPES, Transaction } from "../misc/AddSource";
+import { dollarsPerMonth, partitionRecurring } from "../utils";
 
 interface Props {
-    spending: Array<any>;
-    subgoal: number;
-    income: number;
 }
 
 export type SpendingBarData = {
@@ -57,7 +57,29 @@ export function transactionToSpending(filteredTransactions: Transaction[], month
 }
 
 
-const SpendingView: React.FC<Props> = ( { spending, subgoal, income } ) => {
+const SpendingView: React.FC<Props> = () => {
+  const [recurring] = React.useContext(RecurringContext);
+  const partition = Object.entries(partitionRecurring(recurring));
+  const incomeRs = partition.filter(([type, _]) => RECUR_TYPES[type].income);
+  const totalIncome = incomeRs.flatMap(([_, rs]) => rs.map(dollarsPerMonth)).reduce((a,b) => a+b,0);
+  const expenseRs = partition.filter(([type, _]) => !RECUR_TYPES[type].income);
+  const expense = expenseRs.flatMap(([_, rs]) => rs.map(dollarsPerMonth)).reduce((a,b) => a+b,0);
+  const income = totalIncome - expense;
+
+  const subgoal = income * 0.7;
+  const MONTHS = 6;
+
+  const spending = transactionToSpending(
+    getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions") || "[]"), MONTHS),
+    MONTHS,
+    subgoal,
+    income,
+  );
+
+  const yval = Math.max(income, ...spending.map((spend) => spend.spending)) + 10;
+  const pow = (10 ** Math.floor(Math.log10(yval)));
+  const yrounded = Math.ceil(yval / pow) * pow;
+
     return (
         <M.Container>
             <M.Typography variant="h4" gutterBottom>
@@ -68,13 +90,13 @@ const SpendingView: React.FC<Props> = ( { spending, subgoal, income } ) => {
                 <BarChart data={spending} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
-                    <YAxis />
+                  <YAxis domain={[0, yrounded]} />
                     <Tooltip />
                     <Bar dataKey="spending" stackId="a" fill="#8884d8" />
-                    
 
-                    <ReferenceLine y={subgoal} label="Goal" stroke="yellow" strokeDasharray="3 3" />
-                    <ReferenceLine y={income} label="Income" stroke="red" strokeDasharray="3 3" />
+
+                    <ReferenceLine y={subgoal} label="Spending Goal" stroke="orange" strokeDasharray="3 3" />
+                    <ReferenceLine y={income} label="Left over Income" stroke="red" strokeDasharray="3 3" />
 
                 </BarChart>
             </ResponsiveContainer>
