@@ -3,10 +3,12 @@
 // subscriptions
 // bills
 
+import * as Icons from "@mui/icons-material";
 import * as M from "@mui/material";
-import * as React from "react";
+import { capitalize } from "@mui/material";
 import { useState } from "react";
-import AddSource, { RecurringSource, RECUR_TYPES } from "../misc/AddSource";
+import AddSource, { RecurringSource } from "../misc/AddSource";
+import { partitionRecurring } from "../utils";
 import SummarySection from "./SummarySection";
 
 
@@ -25,19 +27,35 @@ export default function SummaryView(ps: {
     }
   };
 
-  const partition = RECUR_TYPES.map((type) => (
-    <SummarySection title={type[0].toUpperCase() + type.substring(1)}
-                    transactions={ps.recurring.filter((r) => r.type == type)}
-                    expanded={expanded}
-                    setExpanded={setExpanded} />
-  ));
-
   return (
-    <div className="flex flex-col items-stretch">
+    <div>
       <AddSource callback={callback} />
-      {partition}
+      {
+        Object.entries(partitionRecurring(ps.recurring)).map(([type, transactions]) => (
+          <div key={type}>
+            <M.Typography variant="h5" className="py-3">{capitalize(type)}</M.Typography>
+            <SummarySection recurring={transactions}
+                            updateRecurring={() => ps.setRecurring([...ps.recurring])}
+                            removeRecurring={r => ps.setRecurring(ps.recurring.filter(e => r != e))}
+                            expanded={expanded}
+                            setExpanded={setExpanded} />
+          </div>
+        ))
+      }
       <div className="h-10"></div>
-      <M.Button className="self-center" variant="contained" onClick={() => setCallback(() => cb)}>Add +</M.Button>
+
+      <M.Button
+        sx={{
+          position: "absolute",
+          bottom: 40, right: 40,
+          width: 70, height: 70,
+          borderRadius: 100,
+        }}
+        variant="contained"
+        onClick={() => setCallback(() => cb)}
+      >
+        <Icons.Add sx={{ fontSize: 40 }} />
+      </M.Button>
     </div>
   );
 }
