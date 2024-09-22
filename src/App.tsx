@@ -73,7 +73,7 @@ const router = createBrowserRouter([
               <SpendingView />
             </div>
             <div className="grow h-full overflow-scroll p-10 bg-gray-100 min-w-[600px]">
-              <Transactions transactions={JSON.parse(localStorage.getItem("transactions")  || "[]")} />
+              <Transactions />
             </div>
           </div>
         ),

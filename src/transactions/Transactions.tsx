@@ -1,26 +1,20 @@
 import * as React from "react";
 import * as M from "@mui/material";
-import { Transaction } from "../misc/AddSource";
 import { ListItem, ListItemText } from "@mui/material";
 import { List } from "@mui/material";
+import Linker from "../components/Linker"; 
 
-
-
-interface TransactionsProps {
-    transactions: Transaction[];
-}
-
-const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
-    console.log(transactions.toString())
-    transactions = transactions || [];
-    // Sort transactions by date
-    const [transactionState, setTransactions] = React.useState(transactions);
+const Transactions = () => {
+    const [transactionState, setTransactions] = React.useState([]);
 
     return (
         <M.Container>
             <M.Typography variant="h4" gutterBottom>
                 Transactions
             </M.Typography>
+
+            <Linker setTransactions={setTransactions} />
+
             <div>
                 <M.Box display="flex" justifyContent="flex-end" mb={2}></M.Box>
                 <M.FormControl variant="outlined" size="small">
@@ -33,10 +27,9 @@ const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
                             const value = e.target.value;
                             switch (value) {
                                 case "dateRTO":
-                                    setTransactions([...transactionState.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())] );
+                                    setTransactions([...transactionState.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())]);
                                     break;
                                 case "dateOTR":
-                                    
                                     setTransactions([...transactionState.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())]);
                                     break;
                                 case "amountLTH":
@@ -46,29 +39,28 @@ const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
                                     setTransactions([...transactionState.sort((a, b) => b.amount - a.amount)]);
                                     break;
                             }
-
                         }}
                     >
                         <M.MenuItem value="dateRTO">Date Recent</M.MenuItem>
                         <M.MenuItem value="dateOTR">Date Oldest</M.MenuItem>
                         <M.MenuItem value="amountLTH">Amount: Low to High</M.MenuItem>
                         <M.MenuItem value="amountHTL">Amount: High to Low</M.MenuItem>
-                        
                     </M.Select>
                 </M.FormControl>
             </div>
             <List component="div">
-                
-                { transactionState.map(transaction => (
-                    <M.Card variant="outlined" sx={{ marginBottom: 2 }}>
-                        <ListItem key={transaction.name}>
+                {transactionState.map(transaction => (
+                    <M.Card variant="outlined" sx={{ marginBottom: 2 }} key={transaction.transaction_id}>
+                        <ListItem>
                             <ListItemText
-                                primary={transaction.name}
-                                secondary={`${new Date(transaction.date).toDateString()}`} />
+                                primary={transaction.name || "No name"}
+                                secondary={`${new Date(transaction.date).toDateString()}`} 
+                            />
                             <ListItemText
                                 primary={""}
                                 secondary={`$${transaction.amount.toFixed(2)}`}
-                                style={{ textAlign: 'right' }} />
+                                style={{ textAlign: 'right' }} 
+                            />
                         </ListItem>
                     </M.Card>
                 ))}
@@ -78,3 +70,4 @@ const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
 };
 
 export default Transactions;
+
