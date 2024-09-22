@@ -64,7 +64,7 @@ const Calendar: React.FC<CalendarProps> = () => {
   const allEvents = recurringEvents.flatMap(generateRecurringEvents);
 
   return (
-    <div className="max-w-6xl h-full mx-auto">
+    <div className="max-w-6xl h-full mx-auto mt-16">
       <div className="h-full w-full">
         <FullCalendar
           plugins={[dayGridPlugin]}

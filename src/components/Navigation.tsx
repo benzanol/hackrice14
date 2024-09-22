@@ -98,17 +98,11 @@ const Navigation = ({
           <NavigationLink name="Main" to="/dashboard/main" isOpen={false}>
             <CurrencyDollarIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Calendar" to="/dashboard/spending" isOpen={false}>
-            <WalletIcon className="w-6 h-6" />
-          </NavigationLink>
           <NavigationLink name="Transactions" to="/dashboard/transactions" isOpen={false}>
-            <ArrowsRightLeftIcon className="w-6 h-6" />
+            <WalletIcon className="w-6 h-6" />
           </NavigationLink>
           <NavigationLink name="Calendar" to="/dashboard/calendar" isOpen={false}>
             <CalendarIcon className="w-6 h-6" />
-          </NavigationLink>
-          <NavigationLink name="Budgeting" to="/dashboard/budgeting" isOpen={false}>
-            <ChartPieIcon className="w-6 h-6" />
           </NavigationLink>
           <NavigationLink name="Settings" to="/dashboard/settings" isOpen={false}>
             <Cog6ToothIcon className="w-6 h-6" />

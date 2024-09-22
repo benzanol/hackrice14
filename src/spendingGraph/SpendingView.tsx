@@ -70,7 +70,10 @@ const SpendingView: React.FC<Props> = () => {
   const MONTHS = 6;
 
   const spending = transactionToSpending(
-    getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions") || "[]"), MONTHS),
+    getLastMonthsTransactions(
+      JSON.parse(localStorage.getItem("transactions") || "[]"),
+      MONTHS
+    ),
     MONTHS,
     subgoal,
     income,
