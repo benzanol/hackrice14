@@ -1,5 +1,5 @@
-
-import React, { useState } from 'react';
+import * as React from 'react';
+import { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 
 
@@ -12,10 +12,8 @@ const Navbar: React.FC = () => {
 
   return (
     <div className='flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4 text-[#000000]'>
-      <h1 className='w-full text-3xl font-bold text-[#1463F3]'>MAJA</h1>
-      <ul className='hidden md:flex'>
-        <li className='p-4'>About</li>
-      </ul>
+      <h1 className='text-3xl font-bold text-[#1463F3]'>MAJA</h1>
+
 
         <div className="flex space-x-4">
           <button className="w-[120px] px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
