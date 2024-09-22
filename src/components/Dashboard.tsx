@@ -9,7 +9,6 @@ const Dashboard = () => {
         <div className="bg-neutral-900 border-2 border-neutral-800 rounded-lg h-60 w-full"></div>
         <div className="bg-neutral-900 border-2 border-neutral-800 rounded-lg h-60 w-full"></div>
       </div> */}
-      ashdaksjdh
     </motion.section>
   );
 };

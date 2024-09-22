@@ -46,6 +46,7 @@ const transactionData: Transaction[] = [
 
 
 function App() {
+
     return (
         <div>
             <Navbar />

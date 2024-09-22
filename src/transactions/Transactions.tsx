@@ -11,7 +11,8 @@ interface TransactionsProps {
 }
 
 const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
-    
+    console.log(transactions.toString())
+    transactions = transactions || [];
     // Sort transactions by date
     const [transactionState, setTransactions] = React.useState(transactions);
 
@@ -63,7 +64,7 @@ const Transactions: React.FC<TransactionsProps> = ({ transactions }) => {
                         <ListItem key={transaction.name}>
                             <ListItemText
                                 primary={transaction.name}
-                                secondary={`${transaction.date.toDateString()}`} />
+                                secondary={`${new Date(transaction.date).toDateString()}`} />
                             <ListItemText
                                 primary={""}
                                 secondary={`$${transaction.amount.toFixed(2)}`}

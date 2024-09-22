@@ -6,6 +6,7 @@ import {
   WalletIcon,
   Cog6ToothIcon,
   CurrencyDollarIcon as LogoIcon,
+  ArrowsRightLeftIcon,
 } from "@heroicons/react/24/solid";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { useEffect } from "react";
@@ -92,11 +93,11 @@ const Navigation = ({
           </motion.button>
         </div>
         <div className="flex flex-col gap-4">
-          <NavigationLink name="Main" to="/dashboard/summary" isOpen={isOpen}>
+          <NavigationLink name="Main" to="/dashboard/main" isOpen={isOpen}>
             <CurrencyDollarIcon className="w-6 h-6" />
           </NavigationLink>
           <NavigationLink name="Transactions" to="/dashboard/transactions" isOpen={isOpen}>
-            <CurrencyDollarIcon className="w-6 h-6" />
+            <ArrowsRightLeftIcon className="w-6 h-6" />
           </NavigationLink>
           <NavigationLink name="Calendar" to="/dashbaord/calendar" isOpen={isOpen}>
             <CalendarIcon className="w-6 h-6" />

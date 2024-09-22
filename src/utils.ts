@@ -14,11 +14,13 @@ export function dollarsPerWeek(r: RecurringSource): number {
 }
 
 export function getLastMonthsTransactions(o: Transaction[], n: number): Transaction[] {
+    o = o || [];
+    console.log(o);
     let currentDate: Date = new Date();
     let currentMonth: number = currentDate.getMonth();
     let sixMonthsAgo: Date = new Date(currentDate);
     sixMonthsAgo.setMonth(currentMonth - n);
-    return o.filter(t => t.date >= sixMonthsAgo && t.date <= currentDate);
+    return o.filter(t => new Date(t.date) >= sixMonthsAgo && new Date(t.date) <= currentDate);
 }
 
 export function previousSixTransaction(o: Transaction[]): {[month: string]: number}  {

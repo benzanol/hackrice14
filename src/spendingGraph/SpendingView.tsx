@@ -31,9 +31,10 @@ export function transactionToSpending(filteredTransactions: Transaction[], month
         sixMonthSpending.push({ name: currentDate.toLocaleString('default', { month: 'short' }), spending: 0 });
         currentDate.setMonth(currentDate.getMonth() - 1);
     }
+
     filteredTransactions.forEach(transaction => {
         sixMonthSpending.forEach(month => {
-            if (transaction.date.toLocaleString('default', { month: 'short' }) === month.name) {
+            if (new Date(transaction.date).toLocaleString('default', { month: 'short' }) === month.name) {
                 month.spending += transaction.amount;
             }
         });
