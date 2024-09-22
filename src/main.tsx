@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         element: <Transactions transactions={[]} />,
       },
       {
-        path: '/dashboard/summary',
+        path: '/dashboard/main',
         element: <SummaryView recurring={[]} setRecurring={function (r: RecurringSource[]): void {
           throw new Error('Function not implemented.')
         } } />,

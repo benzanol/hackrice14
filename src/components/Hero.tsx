@@ -22,7 +22,7 @@ const Hero: React.FC = () => {
           />
         </div>
         
-        <Link to="/dashboard">
+        <Link to="/dashboard/main">
           <button className='bg-[#1463F3] w-[200px] rounded-md font-medium my-6 mx-auto py-3 text-black'>
             Get Started
           </button>

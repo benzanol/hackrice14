@@ -92,6 +92,9 @@ const Navigation = ({
           </motion.button>
         </div>
         <div className="flex flex-col gap-4">
+          <NavigationLink name="Main" to="/dashboard/summary" isOpen={isOpen}>
+            <CurrencyDollarIcon className="w-6 h-6" />
+          </NavigationLink>
           <NavigationLink name="Transactions" to="/dashboard/transactions" isOpen={isOpen}>
             <CurrencyDollarIcon className="w-6 h-6" />
           </NavigationLink>
