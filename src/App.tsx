@@ -5,6 +5,7 @@ import SummaryView from './summary/SummaryView';
 import AddSource, { RecurringSource, Transaction } from './misc/AddSource';
 import SpendingView, { SpendingBarData, transactionToSpending } from './spendingGraph/SpendingView';
 import { getLastMonthsTransactions } from './utils';
+import Transactions from './transactions/Transactions';
 
 export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
 
@@ -46,12 +47,13 @@ enum Tabs {
   Summary = "Summary", 
   AddSource = "AddSource",
   Spending = "Spending",
+  Transactions = "Transactions",
 }
 
 function App() {
   const [recurring, setRecurring] = useState(subs)
   const [spending, setSpending] = useState(spendingData)
-  const [tab, setTab] = useState(Tabs.Spending);
+  const [tab, setTab] = useState(Tabs.Transactions);
 
   var sumView = (
     <RecurringContext.Provider value={[recurring, setRecurring]}>
@@ -62,6 +64,14 @@ function App() {
         </div>
       </div>
 
+    </RecurringContext.Provider>
+  )
+
+  var transactionSection = (
+    <RecurringContext.Provider value={[transactionData, setSpending]}>
+      <div className="bg-gray-100 min-h-[100vh] w-[800px] p-20 text-left">
+        <Transactions transactions={transactionData}  ></Transactions>
+      </div>
     </RecurringContext.Provider>
   )
 
@@ -80,6 +90,8 @@ function App() {
       return sumView;
     case Tabs.Spending:
       return spendingSection;
+    case Tabs.Transactions:
+      return transactionSection;
   }
 }
 
