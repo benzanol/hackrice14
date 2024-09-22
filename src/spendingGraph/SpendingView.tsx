@@ -53,6 +53,21 @@ export function transactionToSpending(filteredTransactions: Transaction[], month
     return sixMonthSpending;
 }
 
+const builtinTransactions: Transaction[] = [
+  {name: "HEB", amount: 10.43, date: new Date("2024-06-20"), vendor: "HEB"},
+  {name: "Velvet Tacos", amount: 11.43, date: new Date("2024-06-21"), vendor: "Velvet Tacos"},
+  {name: "Ramen", amount: 20.33, date: new Date("2024-06-24"), vendor: "Maruchan"},
+  {name: "Cough Drops", amount: 15.24, date: new Date("2024-09-21"), vendor: "CVS"},
+  {name: "Apple Watch SE (2nd Gen)", amount: 299.56, date: new Date("2024-08-19"), vendor: "Apple"},
+  {name: "JBL Xtreme 2", amount: 126.70, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
+  {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
+  {name: "Steam Deck", amount: 592.60, date: new Date("2024-04-20"), vendor: "Valve"},
+  {name: "Ladle", amount: 10.56, date: new Date("2024-06-20"), vendor: "Valve"},
+  {name: "Instax Mini 12", amount: 77.24, date: new Date("2024-04-2"), vendor: "Fujifilm"},
+  {name: "Dell Curved Monitor", amount: 177.24, date: new Date("2024-07-2"), vendor: "Fujifilm"},
+  {name: "WH-1000XM5", amount: 349.99, date: new Date("2024-05-30"), vendor: "Sony"},
+];
+
 
 const SpendingView: React.FC<Props> = () => {
   const [recurring] = React.useContext(RecurringContext);
@@ -65,7 +80,7 @@ const SpendingView: React.FC<Props> = () => {
   const expenseRs = partition.filter(([type, _]) => !RECUR_TYPES[type].income);
   const expense = expenseRs.flatMap(([_, rs]) => rs.map(dollarsPerMonth)).reduce((a,b) => a+b, 0);
   const income = totalIncome - expense;
-  
+
   const subgoal = income * 0.7;
   const MONTHS = 6;
 
@@ -82,8 +97,7 @@ const SpendingView: React.FC<Props> = () => {
 
   // Handler to refresh transaction data
   const onRefresh = () => {
-    const storedTransactions = JSON.parse(localStorage.getItem("transactions") || "[]");
-    setTransactionData(storedTransactions);
+    setTransactionData(builtinTransactions);
   };
 
   useEffect(() => {
@@ -121,7 +135,7 @@ const SpendingView: React.FC<Props> = () => {
           <YAxis domain={[0, yrounded]} />
           <Tooltip />
           <Bar dataKey="spending" stackId="a" fill="#8884d8" />
-          
+
           {showLines && (
             <>
               <ReferenceLine y={subgoal} label="Spending Goal" stroke="orange" strokeDasharray="3 3" />
