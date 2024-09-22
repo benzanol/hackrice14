@@ -13,9 +13,14 @@ import SummarySection from "./SummarySection";
 import { RecurringContext } from '../App';
 
 
-export default function SummaryView() {
+export default function SummaryView({ savePct, setSavePct }: {
+  savePct: number,
+  setSavePct: (n: number) => void,
+}) {
   const [recurring, setRecurring] = useContext(RecurringContext);
   const [expanded, setExpanded] = useState(null as RecurringSource | null);
+
+  const [displaySubs, setDisplaySubs] = useState(false);
 
   const [callback, setCallback] = useState<null | ((r: RecurringSource) => void)>(null);
   const cb = (r: RecurringSource | null) => {
@@ -24,6 +29,10 @@ export default function SummaryView() {
       setRecurring([...recurring, r]);
     }
   };
+
+  const partition = Object.entries(partitionRecurring(recurring));
+  const incomeRs = partition.filter(([type, _]) => RECUR_TYPES[type].income);
+  const income = incomeRs.flatMap(([_, rs]) => rs.map(dollarsPerMonth)).reduce((a,b) => a+b,0);
 
   return (
     <div>
@@ -38,18 +47,22 @@ export default function SummaryView() {
               <div className="flex">
                 <M.Typography fontSize={18}>{RECUR_TYPES[type].income ? "+" : "–"}</M.Typography>
                 <M.Typography fontSize={18}>
-                  {dollarString(transactions.map(dollarsPerMonth).reduce((a,b) => a+b, 0))}
+                  {dollarString(
+                    ((type == "subscriptions" && !displaySubs) ? [] : transactions)
+                      .map(dollarsPerMonth).reduce((a,b) => a+b, 0)
+                  )}
                 </M.Typography>
                 <div className="w-1" />
                 <M.Typography fontSize={18}>monthly</M.Typography>
               </div>
             </div>
 
-            <SummarySection recurring={transactions}
+            <SummarySection recurring={(type == "subscriptions" && !displaySubs) ? [] : transactions}
                             updateRecurring={() => setRecurring([...recurring])}
                             removeRecurring={r => setRecurring(recurring.filter(e => r != e))}
                             expanded={expanded}
-                            setExpanded={setExpanded} />
+                            setExpanded={setExpanded}
+            />
           </div>
         ))
       }
@@ -67,6 +80,21 @@ export default function SummaryView() {
       >
         <Icons.Add sx={{ fontSize: 40 }} />
       </M.Button>
+
+      <M.Button variant="outlined" className="m-10 mx-auto" onClick={() => setDisplaySubs(true)}>Parse Subscriptions</M.Button>
+
+      <div className="pt-16 px-20">
+        <M.Typography variant="body1">How much of your income do you want to save each month?</M.Typography>
+        <M.Slider
+          color="secondary"
+          max={100}
+          value={savePct}
+          onChange={(_, val) => setSavePct(val as number)}
+        />
+        <M.Typography className="text-center" fontSize={25}>
+          {Math.round(savePct)}% ({dollarString(savePct*income)})
+        </M.Typography>
+      </div>
     </div>
   );
 }

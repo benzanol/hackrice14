@@ -27,7 +27,22 @@ const initialRecurringTransactions: RecurringSource[] = [
 ];
 
 const transactionData: Transaction[] = [
-  ];
+];
+
+function RecurringRoot() {
+  const [savePct, setSavePct] = React.useState(30);
+
+  return (
+    <div className="flex h-full">
+      <div className="grow p-10">
+        <SummaryView savePct={savePct} setSavePct={setSavePct} />
+      </div>
+      <div className="grow h-full overflow-scroll p-10 bg-gray-100 min-w-[600px]">
+        <BudgetPage savePct={savePct} />
+      </div>
+    </div>
+  );
+}
 
 const router = createBrowserRouter([
   {
@@ -53,24 +68,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/main',
-        element: (
-          <div className="flex h-full">
-            <div className="grow p-10">
-              <SummaryView />
-            </div>
-            <div className="grow h-full overflow-scroll p-10 bg-gray-100 min-w-[600px]">
-              <BudgetPage />
-            </div>
-          </div>
-        ),
-      },
-      {
-        path: '/dashboard/spending',
-        element: <SpendingView />,
-      },
-      {
-        path: '/dashboard/budgeting',
-        element: <BudgetPage />,
+        element: <RecurringRoot />,
       },
       {
         path: '/dashboard/calendar',
@@ -82,20 +80,20 @@ const router = createBrowserRouter([
 
 
 export type GetSet<T> = [T, (e: T) => void]
-                    export const RecurringContext = React.createContext<GetSet<RecurringSource[]>>(null);
+export const RecurringContext = React.createContext<GetSet<RecurringSource[]>>(null);
 
-                    function App() {
-                      const [recurring, setRecurring] = useState(initialRecurringTransactions);
+function App() {
+  const [recurring, setRecurring] = useState(initialRecurringTransactions);
 
-                      if (!localStorage.getItem("transactions")) {
-                        localStorage.setItem("transactions", JSON.stringify(transactionData));
-                      }
+  if (!localStorage.getItem("transactions")) {
+    localStorage.setItem("transactions", JSON.stringify(transactionData));
+  }
 
-                      return (
-                        <RecurringContext.Provider value={[recurring, setRecurring]}>
-                          <RouterProvider router={router} />
-                        </RecurringContext.Provider>
-                      );
-                    }
+  return (
+    <RecurringContext.Provider value={[recurring, setRecurring]}>
+      <RouterProvider router={router} />
+    </RecurringContext.Provider>
+  );
+}
 
-                    export default App;
+export default App;

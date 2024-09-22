@@ -53,7 +53,7 @@ export default function BudgetBar(ps: {
   const dollarH = totalPixelH / Math.max(incomeDisplayH, expensesDisplayH);
 
   return (
-    <div className="relative" style={{width: leftPad + pixelW}}>
+    <div className="relative" style={{width: leftPad + pixelW + 180}}>
       <div className="absolute" style={{left: leftPad, width: pixelW, top: padAboveExpenses*dollarH}}>
         {elems.reverse().map((hoverable) => (
           <Hoverable popup={() => <BudgetPopup recurring={hoverable[0][1]} />}>
@@ -116,17 +116,17 @@ export default function BudgetBar(ps: {
       />
 
       {/* Bracket for bills */}
-      <Bracket x={leftPad}
+      <Bracket x={leftPad + pixelW}
                y={totalPixelH - billsDisplayH*dollarH}
                height={billsDisplayH*dollarH}
-               left={true}
+               left={false}
                label={`Bills: ${dollarString(totalBills)}`}
       />
       {/* Bracket for subscriptions */}
-      <Bracket x={leftPad}
+      <Bracket x={leftPad + pixelW}
                y={totalPixelH - (billsDisplayH+subsDisplayH)*dollarH}
                height={subsDisplayH*dollarH}
-               left={true}
+               left={false}
                label={`Subscriptions: ${dollarString(totalSubs)}`}
       />
 
