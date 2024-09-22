@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
       <ul className='hidden md:flex'>
         <li className='p-4'>About</li>
       </ul>
-      <button className='bg-[#EFEFEF] w-[150px] rounded-md font-medium my-6 mx-4 mx-auto py-1 border border-solid border-black text-black'>
+      <button className='bg-[#EFEFEF] w-[150px] rounded-md font-medium my-6 mx-4 py-1 border border-solid border-black text-black'>
           Sign in
         </button>
         <button className='bg-[#1463F3] w-[150px] rounded-md font-medium my-6 mx-auto py-1 text-white'>
