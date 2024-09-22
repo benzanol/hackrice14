@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/dashboard/transactions',
-        element: <Transactions transactions={JSON.parse(localStorage.getItem("transactions"))} />,
+        element: <Transactions transactions={JSON.parse(localStorage.getItem("transactions")  || "[]")} />,
       },
       {
         path: '/dashboard/main',
@@ -36,12 +36,17 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/spending',
+<<<<<<< HEAD
         element: <SpendingView spending={transactionToSpending(getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions")), 6), 6, parseFloat(localStorage.getItem("goal")), parseFloat(localStorage.getItem("income")))} subgoal={parseFloat(localStorage.getItem("goal"))} income={parseFloat(localStorage.getItem("income"))} />,
       },
       {
         path: '/dashboard/calendar',
         element: <Calendar recurringEvents={subs} />,
       },
+=======
+        element: <SpendingView spending={transactionToSpending(getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions") || "[]"), 6), 6, parseFloat(localStorage.getItem("goal")), parseFloat(localStorage.getItem("income")))} subgoal={parseFloat(localStorage.getItem("goal"))} income={parseFloat(localStorage.getItem("income"))} />,
+      }
+>>>>>>> da32ff87cb60b223377848d07d56af87f854d405
     ]
   },
 
