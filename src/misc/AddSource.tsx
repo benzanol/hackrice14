@@ -12,17 +12,17 @@ export type RecurPeriod = (typeof RECUR_PERIODS)[number];
 export const RECUR_TYPES = {
   income: {
     singular: "Income Source",
-    color: "blue",
+    color: "#44bb44",
     income: true,
   },
   bills: {
     singular: "Recurring Bill",
-    color: "green",
+    color: "#bb0000",
     income: false,
   },
   subscriptions: {
     singular: "Subscription",
-    color: "red",
+    color: "#4466bb",
     income: false,
   },
 } as const;
