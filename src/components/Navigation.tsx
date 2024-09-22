@@ -14,6 +14,8 @@ import NavigationLink from "./NavigationLink";
 import ProjectsLink from "./ProjectsLink";
 import ProjectNavigation from "./ProjectNavigation";
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { RecurringSource } from '../misc/AddSource';
 
 const navigationVariants = {
   close: {
@@ -47,6 +49,8 @@ const Navigation = ({
   selectedProject,
   setSelectedProject,
 }: NavProps) => {
+  const [recurringEvents, setRecurringEvents] = useState<RecurringSource[subs]>([]);
+
   const navigationControls = useAnimationControls();
   useEffect(() => {
     if (isOpen) {
@@ -99,7 +103,7 @@ const Navigation = ({
           <NavigationLink name="Transactions" to="/dashboard/transactions" isOpen={isOpen}>
             <ArrowsRightLeftIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Calendar" to="/dashbaord/calendar" isOpen={isOpen}>
+          <NavigationLink name="Calendar" to="/dashboard/calendar" isOpen={isOpen}>
             <CalendarIcon className="w-6 h-6" />
           </NavigationLink>
           <NavigationLink name="Analysis" to="/dashboard/analysis" isOpen={isOpen}>

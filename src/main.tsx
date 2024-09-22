@@ -12,6 +12,8 @@ import SummaryView from './summary/SummaryView.tsx'
 import { RecurringSource } from './misc/AddSource.tsx'
 import SpendingView, { transactionToSpending } from './spendingGraph/SpendingView.tsx'
 import { getLastMonthsTransactions, previousSixTransaction } from './utils.ts'
+import Calendar from './components/Calendar.tsx';
+import { subs } from './App'; // Assuming you export subs from App.tsx
 
 const router = createBrowserRouter([
   {
@@ -34,8 +36,12 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/spending',
-        element: <SpendingView spending={transactionToSpending(getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions") || "[]"), 6), 6, parseFloat(localStorage.getItem("goal")), parseFloat(localStorage.getItem("income")))} subgoal={parseFloat(localStorage.getItem("goal"))} income={parseFloat(localStorage.getItem("income"))} />,
-      }
+        element: <SpendingView spending={transactionToSpending(getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions" || "[]")), 6), 6, parseFloat(localStorage.getItem("goal")), parseFloat(localStorage.getItem("income")))} subgoal={parseFloat(localStorage.getItem("goal"))} income={parseFloat(localStorage.getItem("income"))} />,
+      },
+      {
+        path: '/dashboard/calendar',
+        element: <Calendar recurringEvents={subs} />,
+      },
     ]
   },
 
