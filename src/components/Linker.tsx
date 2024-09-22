@@ -10,8 +10,8 @@ function PlaidAuth({ publicToken, setTransactions }) {
     useEffect(() => {
         async function fetchData() {
             try {
-                // Simulating the loading of transactions from the JSON file
                 const transactions = jsonData.elements;
+                localStorage.setItem('transactionData', JSON.stringify(transactions));
                 setTransactions(transactions);
             } catch (error) {
                 console.error('Error fetching transaction data:', error);

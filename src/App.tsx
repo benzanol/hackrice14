@@ -26,35 +26,8 @@ const initialRecurringTransactions: RecurringSource[] = [
   {name: "Internships",    type: "income", period: "weekly", day: 3, amount: 7},
 ];
 
-const spendingData: SpendingBarData[] = [
-  { name: 'Jan', spending: 60.0 },
-  { name: 'Feb', spending: 59.0 },
-  { name: 'Mar', spending: 110.0 },
-  { name: 'Apr', spending: 81.0 },
-  { name: 'May', spending: 56.0 },
-  { name: 'Jun', spending: 55.0 },
-  { name: 'Jul', spending: 40.0 },
-  { name: 'Aug', spending: 20.0 },
-  { name: 'Sep', spending: 38.0 },
-  { name: 'Oct', spending: 39.0 },
-  { name: 'Nov', spending: 48.0 },
-  { name: 'Dec', spending: 38.0 },
-];
-
 const transactionData: Transaction[] = [
-  {name: "HEB", amount: 10.43, date: new Date("2024-06-20"), vendor: "HEB"},
-  {name: "Velvet Tacos", amount: 11.43, date: new Date("2024-06-21"), vendor: "Velvet Tacos"},
-  {name: "Ramen", amount: 20.33, date: new Date("2024-06-24"), vendor: "Maruchan"},
-  {name: "Cough Drops", amount: 15.24, date: new Date("2024-09-21"), vendor: "CVS"},
-  {name: "Apple Watch SE (2nd Gen)", amount: 299.56, date: new Date("2024-08-19"), vendor: "Apple"},
-  {name: "JBL Xtreme 2", amount: 126.70, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
-  {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
-  {name: "Steam Deck", amount: 592.60, date: new Date("2024-04-20"), vendor: "Valve"},
-  {name: "Ladle", amount: 10.56, date: new Date("2024-06-20"), vendor: "Valve"},
-  {name: "Instax Mini 12", amount: 77.24, date: new Date("2024-04-2"), vendor: "Fujifilm"},
-  {name: "Dell Curved Monitor", amount: 177.24, date: new Date("2024-07-2"), vendor: "Fujifilm"},
-  {name: "WH-1000XM5", amount: 349.99, date: new Date("2024-05-30"), vendor: "Sony"},
-];
+  ];
 
 const router = createBrowserRouter([
   {
