@@ -7,14 +7,16 @@ import { SpendingBarData } from './spendingGraph/SpendingView';
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Sidebar from './Sidebar';
-
+import Calendar from './components/Calendar';
 
 export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
 
-const subs: RecurringSource[] = [
+export const subs: RecurringSource[] = [
   {name: "Netflix", type: "subscriptions", period: "monthly", day: 1, amount: 10},
-  {name: "Spotify", type: "subscriptions", period: "monthly", day: 1, amount: 4},
-  {name: "NFL+",    type: "subscriptions", period: "monthly", day: 1, amount: 7},
+  {name: "Spotify", type: "subscriptions", period: "monthly", day: 5, amount: 4},
+  {name: "NFL+",    type: "subscriptions", period: "monthly", day: 15, amount: 7},
+  {name: "HEB",    type: "bills", period: "monthly", day: 12, amount: 7},
+  {name: "Internships",    type: "income", period: "weekly", day: 3, amount: 7},
 ];
 
 const spendingData: Array<SpendingBarData> = [
@@ -32,7 +34,6 @@ const spendingData: Array<SpendingBarData> = [
   { name: 'Dec', spending: 38.0 },
 ];
 
-
 const transactionData: Transaction[] = [
   {name: "HEB", amount: 10.43, date: new Date("2024-09-20"), vendor: "HEB"},
   {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
@@ -41,12 +42,9 @@ const transactionData: Transaction[] = [
   {name: "Fuzzy", amount: 7.84, date: new Date("2024-09-20"), vendor: "Fuzzy's"},
   {name: "Steam Deck", amount: 592.60, date: new Date("2024-04-20"), vendor: "Valve"},
   {name: "Ladle", amount: 10.56, date: new Date("2024-06-20"), vendor: "Valve"}
-
 ];
 
-
 function App() {
-
     return (
         <div>
             <Navbar />
@@ -55,4 +53,4 @@ function App() {
     );
 }
 
-export default App
+export default App;
