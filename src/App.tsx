@@ -6,6 +6,9 @@ import AddSource, { RecurringSource, Transaction } from './misc/AddSource';
 import SpendingView, { SpendingBarData, transactionToSpending } from './spendingGraph/SpendingView';
 import { getLastMonthsTransactions } from './utils';
 import Transactions from './transactions/Transactions';
+import Navbar from './components/Navbar'
+import Hero from './components/Hero'
+
 
 export const RecurringContext = React.createContext<ReturnType<typeof useState>>(null);
 
@@ -51,48 +54,12 @@ enum Tabs {
 }
 
 function App() {
-  const [recurring, setRecurring] = useState(subs)
-  const [spending, setSpending] = useState(spendingData)
-  const [tab, setTab] = useState(Tabs.Transactions);
-
-  var sumView = (
-    <RecurringContext.Provider value={[recurring, setRecurring]}>
-      {/* This div exists soley for the plus button to position itself relative to */}
-      <div className="relative h-full w-[800px]">
-        <div className="bg-gray-100 h-full w-full p-20 text-left overflow-scroll">
-          <SummaryView recurring={recurring} setRecurring={setRecurring} />
+    return (
+        <div>
+            <Navbar />
+            <Hero />
         </div>
-      </div>
-
-    </RecurringContext.Provider>
-  )
-
-  var transactionSection = (
-    <RecurringContext.Provider value={[transactionData, setSpending]}>
-      <div className="bg-gray-100 min-h-[100vh] w-[800px] p-20 text-left">
-        <Transactions transactions={transactionData}  ></Transactions>
-      </div>
-    </RecurringContext.Provider>
-  )
-
-  var spendingSection = (
-    <RecurringContext.Provider value={[spendingData, setSpending]}>
-      <div className="bg-gray-100 min-h-[100vh] w-[800px] p-20 text-left">
-        <SpendingView spending={transactionToSpending(getLastMonthsTransactions(transactionData, 6), 6, 100, 400) } subgoal={100} income={400} ></SpendingView>
-      </div>
-    </RecurringContext.Provider>
-  )
-
-  switch (tab) {
-    case Tabs.Summary:
-      return sumView;
-    case Tabs.AddSource:
-      return sumView;
-    case Tabs.Spending:
-      return spendingSection;
-    case Tabs.Transactions:
-      return transactionSection;
-  }
+    );
 }
 
 export default App
