@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/dashboard/transactions',
-        element: <Transactions transactions={JSON.parse(localStorage.getItem("transactions"))} />,
+        element: <Transactions transactions={JSON.parse(localStorage.getItem("transactions")  || "[]")} />,
       },
       {
         path: '/dashboard/main',
@@ -34,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/spending',
-        element: <SpendingView spending={transactionToSpending(getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions")), 6), 6, parseFloat(localStorage.getItem("goal")), parseFloat(localStorage.getItem("income")))} subgoal={parseFloat(localStorage.getItem("goal"))} income={parseFloat(localStorage.getItem("income"))} />,
+        element: <SpendingView spending={transactionToSpending(getLastMonthsTransactions(JSON.parse(localStorage.getItem("transactions") || "[]"), 6), 6, parseFloat(localStorage.getItem("goal")), parseFloat(localStorage.getItem("income")))} subgoal={parseFloat(localStorage.getItem("goal"))} income={parseFloat(localStorage.getItem("income"))} />,
       }
     ]
   },
