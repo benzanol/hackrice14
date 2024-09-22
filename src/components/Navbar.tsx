@@ -16,12 +16,15 @@ const Navbar: React.FC = () => {
       <ul className='hidden md:flex'>
         <li className='p-4'>About</li>
       </ul>
-      <button className='bg-[#EFEFEF] w-[150px] rounded-md font-medium my-6 mx-4 py-1 border border-solid border-black text-black'>
-          Sign in
-        </button>
-        <button className='bg-[#1463F3] w-[150px] rounded-md font-medium my-6 mx-auto py-1 text-white'>
-          Sign up
-        </button>
+
+        <div className="flex space-x-4">
+          <button className="w-[120px] px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            Sign in
+          </button>
+          <button className="w-[120px] px-4 py-2 text-sm font-medium text-white bg-[#1463F3] rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+            Sign up
+          </button>
+        </div>
       <div onClick={handleNav} className='block md:hidden'>
         {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
       </div>

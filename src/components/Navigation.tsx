@@ -1,16 +1,18 @@
 import {
   ArrowRightIcon,
-  ChartBarIcon,
-  DocumentCheckIcon,
-  FlagIcon,
-  Square2StackIcon,
-  UsersIcon,
+  CurrencyDollarIcon,
+  CalendarIcon,
+  ChartPieIcon,
+  WalletIcon,
+  Cog6ToothIcon,
+  CurrencyDollarIcon as LogoIcon,
 } from "@heroicons/react/24/solid";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { useEffect } from "react";
 import NavigationLink from "./NavigationLink";
 import ProjectsLink from "./ProjectsLink";
 import ProjectNavigation from "./ProjectNavigation";
+import { NavLink } from 'react-router-dom';
 
 const navigationVariants = {
   close: {
@@ -65,16 +67,18 @@ const Navigation = ({
         initial="close"
         animate={navigationControls}
         variants={navigationVariants}
-        className="flex flex-col absolute h-full bg-neutral-900 z-20 top-0 left-0 border-r-2 border-neutral-800/80 p-5 gap-8"
+        className="flex flex-col absolute h-full bg-gray-900 z-20 top-0 left-0 border-r border-gray-800 p-5 gap-8 font-sans"
       >
         <div className="flex flex-row justify-between place-items-center w-full">
           <div
             className={
               isOpen
-                ? "bg-gradient-to-br from-orange-500 to-amber-700 rounded-full w-10 h-10"
-                : "bg-gradient-to-br from-orange-500 to-amber-700 rounded-full"
+                ? "bg-green-600 rounded-full w-10 h-10 flex items-center justify-center"
+                : "bg-green-600 rounded-full w-8 h-8 flex items-center justify-center"
             }
-          />
+          >
+            <LogoIcon className="text-white w-6 h-6" />
+          </div>
           <motion.button
             initial={{ rotate: 360 }}
             animate={{
@@ -82,48 +86,28 @@ const Navigation = ({
               transition: { duration: 0.5, ease: "easeInOut" },
             }}
             onClick={() => handleOpenClose()}
-            className="h-8 w-8"
+            className="h-8 w-8 text-gray-400 hover:text-white transition-colors"
           >
-            <ArrowRightIcon className="stroke-neutral-300" />
+            <ArrowRightIcon className="stroke-current" />
           </motion.button>
         </div>
-        <div className="flex flex-col gap-2">
-          <NavigationLink name="Transactions" link="#" isOpen={isOpen}>
-            <ChartBarIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+        <div className="flex flex-col gap-4">
+          <NavigationLink name="Transactions" to="/transactions" isOpen={isOpen}>
+            <CurrencyDollarIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Calendar" link="#" isOpen={isOpen}>
-            <Square2StackIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+          <NavigationLink name="Calendar" to="/calendar" isOpen={isOpen}>
+            <CalendarIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Analysis" link="#" isOpen={isOpen}>
-            <DocumentCheckIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+          <NavigationLink name="Analysis" to="/analysis" isOpen={isOpen}>
+            <ChartPieIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Budgeting" link="#" isOpen={isOpen}>
-            <UsersIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+          <NavigationLink name="Budgeting" to="/budgeting" isOpen={isOpen}>
+            <WalletIcon className="w-6 h-6" />
           </NavigationLink>
-          <NavigationLink name="Settings" link="#" isOpen={isOpen}>
-            <FlagIcon className="stroke-inherit stroke-[0.75] min-w-8 w-8" />
+          <NavigationLink name="Settings" to="/settings" isOpen={isOpen}>
+            <Cog6ToothIcon className="w-6 h-6" />
           </NavigationLink>
         </div>
-        {/* <div className="flex flex-col gap-3">
-          <ProjectsLink
-            name="Artificial Inteligence"
-            setSelectedProject={setSelectedProject}
-          >
-            <div className="flex items-center justify-center min-w-4 w-4 aspect-square mx-2 bg-rose-300 rounded-full" />
-          </ProjectsLink>
-          <ProjectsLink
-            name="Apple Vision Pro"
-            setSelectedProject={setSelectedProject}
-          >
-            <div className="flex items-center justify-center min-w-4 w-4 aspect-square mx-2 bg-indigo-500 rounded-full" />
-          </ProjectsLink>
-          <ProjectsLink
-            name="Secret Project"
-            setSelectedProject={setSelectedProject}
-          >
-            <div className="flex items-center justify-center min-w-4 w-4 aspect-square mx-2 bg-yellow-300 rounded-full" />
-          </ProjectsLink>
-        </div> */}
       </motion.nav>
       <AnimatePresence>
         {selectedProject && (
